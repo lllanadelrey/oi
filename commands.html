@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bot Commands</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #36393f; /* Discord background color */
+            color: #dcddde; /* Discord text color */
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .container {
+            background-color: #2f3136; /* Discord container color */
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+            padding: 40px;
+            width: 80%;
+            max-width: 800px;
+        }
+
+        h1 {
+            color: #fff;
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 2em;
+        }
+
+        .command-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .command-item {
+            background-color: #202225; /* Discord item color */
+            border-left: 4px solid #7289da; /* Discord sidebar color */
+            border-radius: 4px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        .command-name {
+            color: #fff;
+            font-weight: bold;
+            font-size: 1.2em;
+            margin-bottom: 10px;
+        }
+
+        .command-description {
+            color: #dcddde;
+            line-height: 1.6;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Bot Commands</h1>
+        <ul class="command-list">
+            <li class="command-item">
+                <div class="command-name">/help</div>
+                <div class="command-description">Shows a list of all commands available.</div>
+            </li>
+            <li class="command-item">
+                <div class="command-name">/wiki &lt;query&gt;</div>
+                <div class="command-description">Searches the wiki and dictionary.</div>
+            </li>
+            <li class="command-item">
+                <div class="command-name">/set_language &lt;lang&gt;</div>
+                <div class="command-description">Selects the server's language.</div>
+            </li>
+            <li class="command-item">
+                <div class="command-name">/upvote</div>
+                <div class="command-description">Shows you how to upvote the bot to help the project.</div>
+            </li>
+            <li class="command-item">
+                <div class="command-name">/bugreport &lt;description&gt;</div>
+                <div class="command-description">Report a bug directly to the bot developers.</div>
+            </li>
+        </ul>
+    </div>
+</body>
+</html>
