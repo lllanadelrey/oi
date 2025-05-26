@@ -55,6 +55,19 @@
             box-sizing: border-box;
         }
 
+        .hero-image-container {
+            margin-bottom: 30px; /* Espaço abaixo da imagem */
+            width: 100%;
+            max-width: 250px; /* Limita a largura da imagem */
+        }
+
+        .hero-image {
+            max-width: 100%;
+            height: auto;
+            border-radius: 15px; /* Bordas arredondadas */
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3); /* Sombra suave */
+        }
+
         .hero-title {
             font-size: 3em;
             font-weight: 700;
@@ -143,6 +156,10 @@
             .hero-description {
                 font-size: 0.9em;
             }
+
+            .hero-image-container {
+                max-width: 200px; /* Reduz um pouco mais a imagem em telas muito pequenas */
+            }
         }
     </style>
 </head>
@@ -154,6 +171,9 @@
     </div>
 
     <div class="hero-section">
+        <div class="hero-image-container">
+            <img src="https://i.imgur.com/39hNq1Y.png" alt="WikiBot Illustration" class="hero-image">
+        </div>
         <h1 class="hero-title">Discord Information Made Easy</h1>
         <p class="hero-description">WikiBot enables users to perform comprehensive Wikipedia searches using a single, intuitive command, delivering immediate results without the need to navigate external websites.</p>
         <div class="buttons-container">
