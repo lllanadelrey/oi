@@ -54,9 +54,9 @@
 
   /* UI para PC - Aumentada e Esticada */
   .container {
-    width: 95%; /* Esticado para os lados */
-    max-width: 1800px; /* Max width ainda maior para telas gigantes */
-    padding: 80px 100px; /* Aumenta padding lateral também */
+    width: 95%;
+    max-width: 1800px;
+    padding: 80px 100px;
     margin-top: 100px;
     opacity: 0;
     transform: translateY(20px);
@@ -79,13 +79,13 @@
   .command-list {
     background-color: #2f313e;
     border-radius: 15px;
-    padding: 50px 70px; /* Aumenta padding lateral na lista */
+    padding: 50px 70px;
     margin-top: 50px;
     box-shadow: 0 15px 40px rgba(0, 0, 0, 0.5);
   }
 
   .command-item {
-    padding: 30px 0; /* Ajusta padding para controle total dos elementos internos */
+    padding: 30px 0;
     border-bottom: 1px solid #424558;
     display: flex;
     align-items: center;
@@ -104,39 +104,40 @@
   }
 
   .symbol {
-    margin-right: 30px; /* Mais espaço */
+    margin-right: 30px;
     color: #7289da;
     font-size: 2.5em;
-    min-width: 50px; /* Garante espaço */
+    min-width: 50px;
     text-align: center;
   }
 
   .command {
     font-weight: bold;
     color: #7289da;
-    margin-right: 50px; /* Mais espaço */
-    min-width: 250px; /* Mais largura para o nome do comando */
-    font-size: 2.2em; /* Tamanho da fonte bem maior */
+    margin-right: 50px;
+    min-width: 250px;
+    font-size: 2.2em;
     text-transform: lowercase;
   }
 
   .description {
     flex-grow: 1;
-    margin-right: 50px; /* Reduz margem da descrição para o usage ficar mais próximo do lado */
-    font-size: 1.8em; /* Aumenta a fonte da descrição */
+    margin-right: 50px;
+    font-size: 1.8em;
     line-height: 1.6;
   }
 
+  /* PC: Usage ao lado da descrição */
   .usage {
     color: #99aab5;
-    font-size: 1.3em; /* Aumenta um pouco mais o tamanho do usage no PC */
+    font-size: 1.3em;
     font-style: italic;
     white-space: nowrap;
     position: absolute;
-    right: 0; /* Cola no canto direito da .command-item */
+    right: 0;
     top: 50%;
     transform: translateY(-50%);
-    padding-right: 70px; /* Padding igual ao da .command-list pra alinhar */
+    padding-right: 70px;
   }
 
   /* Media query para telas menores (mobile) */
@@ -154,7 +155,7 @@
       padding: 20px;
     }
     .command-item {
-      flex-wrap: wrap;
+      flex-wrap: wrap; /* Permite que os itens quebrem a linha */
       padding: 15px 10px;
       justify-content: flex-start;
       align-items: flex-start;
@@ -162,27 +163,30 @@
     .symbol {
       font-size: 1.8em;
       margin-right: 15px;
-      min-width: unset; /* Remove min-width fixo */
+      min-width: unset;
       width: auto;
     }
     .command {
-      font-size: 1.4em; /* Aumenta um pouco o comando no mobile */
-      min-width: unset; /* Remove min-width fixo */
-      margin-right: 15px;
+      font-size: 1.4em;
+      min-width: unset;
+      margin-right: 0; /* Remove margem direita do comando no mobile */
+      flex-basis: auto; /* Deixa o comando se adaptar ao conteúdo */
     }
+
+    /* Mobile: Usage abaixo do comando */
     .usage {
       position: static; /* Volta a ser estático no mobile */
       transform: none;
-      font-size: 1.1em; /* Aumenta um pouco o usage no mobile */
+      font-size: 1.1em;
       flex-basis: 100%; /* Ocupa a linha toda */
       text-align: left;
-      margin-top: 2px; /* Reduz a margem para ficar "encostadinho" */
-      margin-left: calc(15px + 15px); /* Alinha com o início do comando (symbol-margin-right + command-margin-right) - ajustar conforme necessário */
-      padding-right: 0; /* Remove padding */
+      margin-top: 2px; /* Espaço abaixo do nome do comando */
+      margin-left: calc(15px + 15px); /* Alinha com o início do comando (symbol-margin-right + command-left-indent) */
+      padding-right: 0;
       order: 2; /* Fica logo abaixo do comando */
     }
     .description {
-      font-size: 1.2em; /* Aumenta a descrição no mobile */
+      font-size: 1.2em;
       margin-right: 0;
       flex-basis: 100%;
       order: 3;
