@@ -91,7 +91,7 @@
     align-items: center;
     transition: transform 0.3s cubic-bezier(0.68, -0.55, 0.27, 1.55),
                 background-color 0.2s ease-in-out;
-    position: relative; /* Mantém para o position absolute da usage no PC */
+    position: relative;
   }
 
   .command-item:last-child {
@@ -109,14 +109,20 @@
     font-size: 2.5em;
     min-width: 50px;
     text-align: center;
-    flex-shrink: 0; /* Impede que o ícone encolha */
   }
 
-  .command-content { /* Container principal do texto */
+  .command-info-wrapper { /* Novo wrapper para agrupar command, usage e description */
     display: flex;
-    flex-grow: 1;
+    flex-wrap: wrap; /* Permite que os itens quebrem a linha dentro do wrapper */
+    flex-grow: 1; /* Ocupa o espaço restante */
     align-items: center; /* Alinha no centro verticalmente para PC */
-    position: relative; /* Necessário para a usage-pc position absolute */
+  }
+
+  .command-name-group { /* Agrupa só o nome do comando no PC */
+    display: flex;
+    align-items: center;
+    margin-right: 50px; /* Espaço para a descrição */
+    min-width: 250px; /* Garante largura mínima para o nome do comando */
   }
 
   .command {
@@ -124,11 +130,9 @@
     color: #7289da;
     font-size: 2.2em;
     text-transform: lowercase;
-    margin-right: 20px; /* Espaço entre comando e usage no PC */
-    flex-shrink: 0; /* Impede que o comando encolha */
   }
 
-  .description-pc { /* Descrição específica para PC */
+  .description {
     flex-grow: 1; /* Ocupa o espaço restante no PC */
     font-size: 1.8em;
     line-height: 1.6;
@@ -136,7 +140,7 @@
   }
 
   /* PC: Usage ao lado da descrição */
-  .usage-pc {
+  .usage {
     color: #99aab5;
     font-size: 1.3em;
     font-style: italic;
@@ -146,11 +150,6 @@
     top: 50%;
     transform: translateY(-50%);
     padding-right: 70px; /* Alinha com o padding da lista */
-  }
-
-  /* Elementos mobile ficam escondidos no PC */
-  .usage-mobile, .description-mobile {
-      display: none;
   }
 
   /* Media query para telas menores (mobile) */
@@ -168,56 +167,67 @@
     }
     .command-item {
       padding: 15px 10px;
-      align-items: flex-start;
-      flex-wrap: wrap; /* Permite que os itens quebrem a linha */
+      align-items: flex-start; /* Alinha no topo no mobile */
     }
     .symbol {
       font-size: 1.8em;
       margin-right: 15px;
+      min-width: unset;
+      flex-shrink: 0;
     }
 
-    .command-content { /* Container principal do texto, agora vai ser coluna no mobile */
-      flex-direction: column;
-      align-items: flex-start;
+    .command-info-wrapper {
+      flex-direction: column; /* Mobile: empilha os itens */
+      align-items: flex-start; /* Alinha tudo à esquerda */
       flex-grow: 1;
-      width: calc(100% - (15px + 15px)); /* Largura para o conteúdo, descontando symbol e margem */
-      position: static; /* Remove position absolute no mobile */
+      width: calc(100% - (15px + 15px + 50px)); /* Largura para command-info-wrapper: total - (symbol-margin + symbol-width + command-item-padding-left) */
+      /* O cálculo acima pode variar, depende do tamanho real do symbol e padding.
+         Uma abordagem mais simples é deixar flex-grow 1 e alinhar padding-left nos filhos. */
     }
 
+    .command-name-group { /* Mobile: nome do comando e usage ficam juntos */
+      flex-direction: column; /* Nome do comando e usage em coluna */
+      align-items: flex-start; /* Alinha à esquerda */
+      margin-right: 0; /* Remove margem */
+      min-width: unset;
+      flex-basis: 100%; /* Ocupa a largura total disponível */
+      order: 1; /* Garante que vem primeiro dentro do wrapper */
+    }
+    
     .command {
       font-size: 1.4em;
       margin-right: 0;
-      margin-bottom: 0; /* Remove margem inferior padrão */
-      flex-shrink: 0;
-      width: 100%; /* Comando ocupa a largura total */
+      margin-bottom: 2px; /* Espaço entre comando e usage */
+    }
+
+    /* Mobile: Usage abaixo do comando */
+    .usage {
+      position: static; /* Volta a ser estático no mobile */
+      transform: none;
+      font-size: 1.1em;
+      text-align: left;
+      white-space: normal; /* Permite que a usage quebre a linha */
+      padding-right: 0;
+      margin-top: 0;
+      margin-left: 0;
+    }
+
+    .description {
+      font-size: 1.2em;
+      margin-right: 0;
+      flex-basis: 100%; /* Ocupa a linha toda */
+      order: 2; /* Fica depois do command-name-group no mobile */
+      margin-top: 10px; /* Espaço entre usage e descrição */
     }
     
-    .usage-mobile { /* Mostra a usage no mobile, embaixo do comando */
-        display: block;
-        color: #99aab5;
-        font-size: 1.1em;
-        font-style: italic;
-        margin-top: 2px; /* Pouco espaço abaixo do nome do comando */
-        margin-bottom: 5px; /* Espaço entre usage e description */
-        width: 100%; /* Usage ocupa a largura total */
+    /* Ajustes de padding para alinhamento no mobile */
+    .command-item .command-name-group,
+    .command-item .description {
+        padding-left: calc(15px + 15px); /* Alinha com o symbol e o comando */
     }
-
-    .description-mobile { /* Mostra a description no mobile */
-        display: block;
-        font-size: 1.2em;
-        line-height: 1.4;
-        margin-top: 0; /* Ajusta margem */
-        width: 100%; /* Descrição ocupa a largura total */
-    }
-
-    /* Esconde elementos de PC no mobile */
-    .usage-pc, .description-pc {
-        display: none;
-    }
-
-    /* Garante que o command-content comece após o symbol */
-    .command-item > .command-content {
-        margin-left: 0; /* Reseta qualquer margin-left que possa vir do PC */
+    /* Remove padding para o usage, ele já está dentro do command-name-group */
+    .command-item .usage {
+        padding-left: 0;
     }
   }
 
@@ -228,11 +238,11 @@
     .command {
       font-size: 1.2em;
     }
-    .usage-mobile {
-      font-size: 1em;
-    }
-    .description-mobile {
+    .description {
       font-size: 1.1em;
+    }
+    .usage {
+      font-size: 1em;
     }
     .symbol {
         font-size: 1.6em;
@@ -240,6 +250,11 @@
     }
     .command-item {
         padding: 12px 8px;
+    }
+    /* Ajuste para o padding-left da description e command-name-group em telas muito pequenas */
+    .command-item .command-name-group,
+    .command-item .description {
+        padding-left: calc(10px + 10px);
     }
   }
 </style>
@@ -257,57 +272,52 @@
   <div class="command-list">
     <div class="command-item">
       <i class="fas fa-bug symbol"></i>
-      <div class="command-content">
-        <span class="command">bugreport</span>
-        <span class="usage-pc">/bugreport &lt;description&gt;</span>
-        <span class="description-pc">Report a bug directly to the bot developers.</span>
-
-        <span class="usage-mobile">/bugreport &lt;description&gt;</span>
-        <span class="description-mobile">Report a bug directly to the bot developers.</span>
+      <div class="command-info-wrapper">
+        <div class="command-name-group">
+          <span class="command">bugreport</span>
+          <span class="usage">/bugreport &lt;description&gt;</span>
+        </div>
+        <span class="description">Report a bug directly to the bot developers.</span>
       </div>
     </div>
     <div class="command-item">
       <i class="fas fa-question-circle symbol"></i>
-      <div class="command-content">
-        <span class="command">help</span>
-        <span class="usage-pc">/help</span>
-        <span class="description-pc">Shows a list of all commands available.</span>
-
-        <span class="usage-mobile">/help</span>
-        <span class="description-mobile">Shows a list of all commands available.</span>
+      <div class="command-info-wrapper">
+        <div class="command-name-group">
+          <span class="command">help</span>
+          <span class="usage">/help</span>
+        </div>
+        <span class="description">Shows a list of all commands available.</span>
       </div>
     </div>
     <div class="command-item">
       <i class="fas fa-globe symbol"></i>
-      <div class="command-content">
-        <span class="command">set_language</span>
-        <span class="usage-pc">/set_language &lt;lang&gt;</span>
-        <span class="description-pc">Selects the server's language.</span>
-
-        <span class="usage-mobile">/set_language &lt;lang&gt;</span>
-        <span class="description-mobile">Selects the server's language.</span>
+      <div class="command-info-wrapper">
+        <div class="command-name-group">
+          <span class="command">set_language</span>
+          <span class="usage">/set_language &lt;lang&gt;</span>
+        </div>
+        <span class="description">Selects the server's language.</span>
       </div>
     </div>
     <div class="command-item">
       <i class="fas fa-thumbs-up symbol"></i>
-      <div class="command-content">
-        <span class="command">upvote</span>
-        <span class="usage-pc">/upvote</span>
-        <span class="description-pc">Shows you how to upvote the bot to help the project.</span>
-
-        <span class="usage-mobile">/upvote</span>
-        <span class="description-mobile">Shows you how to upvote the bot to help the project.</span>
+      <div class="command-info-wrapper">
+        <div class="command-name-group">
+          <span class="command">upvote</span>
+          <span class="usage">/upvote</span>
+        </div>
+        <span class="description">Shows you how to upvote the bot to help the project.</span>
       </div>
     </div>
     <div class="command-item">
       <i class="fas fa-search symbol"></i>
-      <div class="command-content">
-        <span class="command">wiki</span>
-        <span class="usage-pc">/wiki &lt;query&gt;</span>
-        <span class="description-pc">Searches the wiki and dictionary.</span>
-
-        <span class="usage-mobile">/wiki &lt;query&gt;</span>
-        <span class="description-mobile">Searches the wiki and dictionary.</span>
+      <div class="command-info-wrapper">
+        <div class="command-name-group">
+          <span class="command">wiki</span>
+          <span class="usage">/wiki &lt;query&gt;</span>
+        </div>
+        <span class="description">Searches the wiki and dictionary.</span>
       </div>
     </div>
   </div>
