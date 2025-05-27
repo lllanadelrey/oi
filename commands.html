@@ -112,10 +112,11 @@
     flex-shrink: 0; /* Impede que o ícone encolha */
   }
 
-  .command-content { /* Novo wrapper para o comando, usage e description */
+  .command-content { /* Container principal do texto */
     display: flex;
-    flex-grow: 1; /* Ocupa o espaço restante */
+    flex-grow: 1;
     align-items: center; /* Alinha no centro verticalmente para PC */
+    position: relative; /* Necessário para a usage-pc position absolute */
   }
 
   .command {
@@ -127,22 +128,27 @@
     flex-shrink: 0; /* Impede que o comando encolha */
   }
 
-  .usage-pc { /* Classe específica para o usage no PC */
+  .description-pc { /* Descrição específica para PC */
+    flex-grow: 1; /* Ocupa o espaço restante no PC */
+    font-size: 1.8em;
+    line-height: 1.6;
+    margin-right: 50px; /* Espaço para a usage no PC */
+  }
+
+  /* PC: Usage ao lado da descrição */
+  .usage-pc {
     color: #99aab5;
     font-size: 1.3em;
     font-style: italic;
     white-space: nowrap; /* Não quebra linha no PC */
-    margin-right: 50px; /* Espaço entre usage e description no PC */
-    flex-shrink: 0; /* Impede que a usage encolha */
+    position: absolute; /* Posição absoluta para ficar no canto */
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    padding-right: 70px; /* Alinha com o padding da lista */
   }
 
-  .description-pc { /* Classe específica para a description no PC */
-    flex-grow: 1; /* Ocupa o espaço restante no PC */
-    font-size: 1.8em;
-    line-height: 1.6;
-  }
-
-  /* Esconde elementos de mobile no PC */
+  /* Elementos mobile ficam escondidos no PC */
   .usage-mobile, .description-mobile {
       display: none;
   }
@@ -163,39 +169,45 @@
     .command-item {
       padding: 15px 10px;
       align-items: flex-start;
+      flex-wrap: wrap; /* Permite que os itens quebrem a linha */
     }
     .symbol {
       font-size: 1.8em;
       margin-right: 15px;
     }
 
-    .command-content {
-      flex-direction: column; /* Mobile: empilha os itens */
-      align-items: flex-start; /* Alinha tudo à esquerda */
-      flex-grow: 1; /* Permite que ocupe o espaço */
-      width: calc(100% - (15px + 15px)); /* Largura para o conteúdo, descontando symbol */
+    .command-content { /* Container principal do texto, agora vai ser coluna no mobile */
+      flex-direction: column;
+      align-items: flex-start;
+      flex-grow: 1;
+      width: calc(100% - (15px + 15px)); /* Largura para o conteúdo, descontando symbol e margem */
+      position: static; /* Remove position absolute no mobile */
     }
 
     .command {
       font-size: 1.4em;
-      margin-right: 0; /* Remove margem direita do comando */
+      margin-right: 0;
       margin-bottom: 0; /* Remove margem inferior padrão */
+      flex-shrink: 0;
+      width: 100%; /* Comando ocupa a largura total */
     }
     
-    .usage-mobile { /* Mostra a usage no mobile */
-        display: block; /* Mostra o elemento específico de mobile */
+    .usage-mobile { /* Mostra a usage no mobile, embaixo do comando */
+        display: block;
         color: #99aab5;
         font-size: 1.1em;
         font-style: italic;
         margin-top: 2px; /* Pouco espaço abaixo do nome do comando */
         margin-bottom: 5px; /* Espaço entre usage e description */
+        width: 100%; /* Usage ocupa a largura total */
     }
 
     .description-mobile { /* Mostra a description no mobile */
-        display: block; /* Mostra o elemento específico de mobile */
+        display: block;
         font-size: 1.2em;
         line-height: 1.4;
         margin-top: 0; /* Ajusta margem */
+        width: 100%; /* Descrição ocupa a largura total */
     }
 
     /* Esconde elementos de PC no mobile */
@@ -203,15 +215,9 @@
         display: none;
     }
 
-    /* Ajusta o padding-left dos elementos no mobile para alinhar com o symbol */
+    /* Garante que o command-content comece após o symbol */
     .command-item > .command-content {
-        padding-left: 0; /* Reset */
-    }
-    .command-item .command-content > .command,
-    .command-item .command-content > .usage-mobile,
-    .command-item .command-content > .description-mobile {
-        padding-left: 0; /* Reseta qualquer padding extra */
-        width: 100%; /* Ocupa a largura total do command-content */
+        margin-left: 0; /* Reseta qualquer margin-left que possa vir do PC */
     }
   }
 
@@ -253,7 +259,12 @@
       <i class="fas fa-bug symbol"></i>
       <div class="command-content">
         <span class="command">bugreport</span>
-        <span class="usage-pc">/bugreport &lt;description&gt;</span> <span class="description-pc">Report a bug directly to the bot developers.</span> <span class="usage-mobile">/bugreport &lt;description&gt;</span> <span class="description-mobile">Report a bug directly to the bot developers.</span> </div>
+        <span class="usage-pc">/bugreport &lt;description&gt;</span>
+        <span class="description-pc">Report a bug directly to the bot developers.</span>
+
+        <span class="usage-mobile">/bugreport &lt;description&gt;</span>
+        <span class="description-mobile">Report a bug directly to the bot developers.</span>
+      </div>
     </div>
     <div class="command-item">
       <i class="fas fa-question-circle symbol"></i>
@@ -261,6 +272,7 @@
         <span class="command">help</span>
         <span class="usage-pc">/help</span>
         <span class="description-pc">Shows a list of all commands available.</span>
+
         <span class="usage-mobile">/help</span>
         <span class="description-mobile">Shows a list of all commands available.</span>
       </div>
@@ -271,6 +283,7 @@
         <span class="command">set_language</span>
         <span class="usage-pc">/set_language &lt;lang&gt;</span>
         <span class="description-pc">Selects the server's language.</span>
+
         <span class="usage-mobile">/set_language &lt;lang&gt;</span>
         <span class="description-mobile">Selects the server's language.</span>
       </div>
@@ -281,6 +294,7 @@
         <span class="command">upvote</span>
         <span class="usage-pc">/upvote</span>
         <span class="description-pc">Shows you how to upvote the bot to help the project.</span>
+
         <span class="usage-mobile">/upvote</span>
         <span class="description-mobile">Shows you how to upvote the bot to help the project.</span>
       </div>
@@ -291,6 +305,7 @@
         <span class="command">wiki</span>
         <span class="usage-pc">/wiki &lt;query&gt;</span>
         <span class="description-pc">Searches the wiki and dictionary.</span>
+
         <span class="usage-mobile">/wiki &lt;query&gt;</span>
         <span class="description-mobile">Searches the wiki and dictionary.</span>
       </div>
