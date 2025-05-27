@@ -12,8 +12,8 @@
     flex-direction: column;
     align-items: center;
     min-height: 100vh;
-    overflow-x: hidden; /* Evita scroll horizontal indesejado */
-    box-sizing: border-box; /* Inclui padding e borda no tamanho total */
+    overflow-x: hidden;
+    box-sizing: border-box;
   }
 
   /* Loading Animation */
@@ -29,17 +29,17 @@
     align-items: center;
     z-index: 1000;
     opacity: 1;
-    transition: opacity 0.7s ease-out; /* Transição mais suave */
+    transition: opacity 0.7s ease-out;
   }
 
   .loading-icon {
-    width: 80px; /* Aumenta o tamanho */
-    height: 80px; /* Aumenta o tamanho */
+    width: 80px;
+    height: 80px;
     border-radius: 50%;
-    border: 8px solid #7289da; /* Aumenta a espessura */
+    border: 8px solid #7289da;
     border-top-color: transparent;
-    animation: spin 1s cubic-bezier(0.68, -0.55, 0.27, 1.55) infinite, /* Animação mais bouncy */
-               bounce-y 0.8s alternate infinite ease-in-out; /* Nova animação de bounce */
+    animation: spin 1s cubic-bezier(0.68, -0.55, 0.27, 1.55) infinite,
+               bounce-y 0.8s alternate infinite ease-in-out;
   }
 
   @keyframes spin {
@@ -48,18 +48,19 @@
 
   @keyframes bounce-y {
     0% { transform: translateY(0); }
-    50% { transform: translateY(-25px); } /* Aumenta o bounce */
+    50% { transform: translateY(-25px); }
     100% { transform: translateY(0); }
   }
 
+  /* UI para PC - Aumentada */
   .container {
-    width: 95%; /* Aumenta mais a largura */
-    max-width: 1400px; /* Aumenta o máximo para telas grandes */
-    padding: 60px; /* Aumenta bastante o padding interno */
-    margin-top: 80px; /* Aumenta a margem superior */
-    opacity: 0; /* Esconde o container inicialmente */
-    transform: translateY(20px); /* Começa um pouco abaixo */
-    transition: opacity 0.8s ease-out, transform 0.8s ease-out; /* Transição para aparecer */
+    width: 90%; /* Ajuste a largura conforme necessário */
+    max-width: 1600px; /* Aumenta o máximo para telas bem grandes */
+    padding: 80px; /* Aumenta bastante o padding */
+    margin-top: 100px; /* Mais margem superior */
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.8s ease-out, transform 0.8s ease-out;
   }
 
   .container.show {
@@ -70,27 +71,27 @@
   h1 {
     color: #fff;
     text-align: center;
-    margin-bottom: 60px; /* Mais margem */
-    font-size: 3.5em; /* Aumenta ainda mais o tamanho da fonte */
-    text-shadow: 0 0 10px rgba(114, 137, 218, 0.5); /* Leve sombra pra destacar */
+    margin-bottom: 80px; /* Mais margem */
+    font-size: 4.5em; /* Tamanho da fonte bem maior */
+    text-shadow: 0 0 15px rgba(114, 137, 218, 0.6); /* Sombra mais forte */
   }
 
   .command-list {
     background-color: #2f313e;
-    border-radius: 12px; /* Mais arredondado */
-    padding: 40px; /* Aumenta o padding */
-    margin-top: 40px;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4); /* Sombra mais forte */
+    border-radius: 15px; /* Mais arredondado */
+    padding: 50px; /* Aumenta o padding */
+    margin-top: 50px;
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.5); /* Sombra ainda mais forte */
   }
 
   .command-item {
-    padding: 25px 20px; /* Mais padding vertical e horizontal */
+    padding: 30px 25px; /* Mais padding */
     border-bottom: 1px solid #424558;
     display: flex;
     align-items: center;
-    transition: transform 0.3s cubic-bezier(0.68, -0.55, 0.27, 1.55), /* Animação mais bouncy no hover */
+    transition: transform 0.3s cubic-bezier(0.68, -0.55, 0.27, 1.55),
                 background-color 0.2s ease-in-out;
-    position: relative; /* Para posicionar o usage absoluto */
+    position: relative;
   }
 
   .command-item:last-child {
@@ -98,106 +99,117 @@
   }
 
   .command-item:hover {
-    transform: scale(1.03); /* Aumenta levemente, mas com bounce */
-    background-color: #3b3e4f; /* Leve mudança de cor no hover */
+    transform: scale(1.02); /* Aumenta um pouco menos, mas mantém o bounce */
+    background-color: #3b3e4f;
+  }
+
+  .symbol {
+    margin-right: 25px; /* Mais espaço */
+    color: #7289da;
+    font-size: 2.5em; /* Aumenta bastante */
+    width: 50px; /* Largura fixa */
+    text-align: center;
   }
 
   .command {
     font-weight: bold;
     color: #7289da;
-    margin-right: 30px; /* Mais espaço */
-    min-width: 180px; /* Garante largura mínima para o nome do comando */
-    font-size: 1.6em; /* Aumenta mais o tamanho da fonte */
-    text-transform: lowercase; /* Deixa em minúsculas */
+    margin-right: 40px; /* Mais espaço */
+    min-width: 220px; /* Mais largura para o nome do comando */
+    font-size: 2em; /* Tamanho da fonte bem maior */
+    text-transform: lowercase;
   }
 
   .description {
     flex-grow: 1;
-    margin-right: 150px; /* Afasta bastante a descrição do usage */
-    font-size: 1.3em; /* Aumenta o tamanho da fonte */
-    line-height: 1.5; /* Melhor espaçamento entre linhas */
+    margin-right: 200px; /* Afasta ainda mais a descrição do usage */
+    font-size: 1.6em; /* Aumenta a fonte da descrição */
+    line-height: 1.6;
   }
 
   .usage {
     color: #99aab5;
-    font-size: 1em; /* Tamanho normal para o usage */
+    font-size: 1.2em; /* Aumenta o tamanho do usage no PC */
     font-style: italic;
     white-space: nowrap;
-    position: absolute; /* Posiciona absolutamente */
-    right: 20px; /* Joga pro canto direito */
-    top: 50%; /* Centraliza verticalmente */
-    transform: translateY(-50%); /* Ajusta o centro */
-  }
-
-  .symbol {
-    margin-right: 20px; /* Mais espaço */
-    color: #7289da;
-    font-size: 2em; /* Aumenta bastante o símbolo */
-    width: 40px; /* Largura fixa para o símbolo */
-    text-align: center; /* Centraliza o símbolo */
+    position: absolute;
+    right: 30px; /* Joga mais pro canto direito */
+    top: 50%;
+    transform: translateY(-50%);
   }
 
   /* Media query para telas menores (mobile) */
   @media (max-width: 900px) {
     .container {
-      width: 98%;
-      padding: 25px;
-      margin-top: 40px;
+      width: 95%;
+      padding: 30px;
+      margin-top: 50px;
     }
     h1 {
-      font-size: 2.5em;
-      margin-bottom: 30px;
+      font-size: 3em;
+      margin-bottom: 40px;
     }
     .command-list {
-      padding: 20px;
+      padding: 25px;
     }
     .command-item {
-      flex-wrap: wrap; /* Permite que os itens quebrem a linha */
-      padding: 15px 10px;
-      justify-content: flex-start; /* Alinha os itens ao início */
+      flex-wrap: wrap;
+      padding: 20px 15px;
+      justify-content: flex-start;
+      align-items: flex-start; /* Alinha no topo quando quebra linha */
     }
     .symbol {
-      font-size: 1.5em;
-      margin-right: 10px;
+      font-size: 1.8em;
+      margin-right: 15px;
       width: auto;
     }
     .command {
-      font-size: 1.1em;
-      min-width: 100px; /* Reduz a largura mínima */
-      margin-right: 10px;
+      font-size: 1.3em;
+      min-width: 100px;
+      margin-right: 15px;
     }
     .description {
-      font-size: 1em;
-      margin-right: 10px;
-      flex-basis: 100%; /* Faz a descrição ocupar a linha toda no mobile */
-      order: 3; /* Muda a ordem pra ir pra baixo */
+      font-size: 1.1em;
+      margin-right: 0; /* Remove margem extra */
+      flex-basis: 100%;
+      order: 3;
       margin-top: 10px;
+      padding-left: 50px; /* Alinha com o símbolo/comando */
     }
     .usage {
       position: static; /* Volta a ser estático no mobile */
       transform: none;
-      font-size: 0.9em;
-      flex-basis: 100%; /* Ocupa a linha toda */
-      text-align: left; /* Alinha à esquerda */
-      margin-top: 5px;
-      padding-left: 50px; /* Alinha com a descrição */
+      font-size: 1em; /* Tamanho do usage no mobile */
+      flex-basis: 100%;
+      text-align: left;
+      margin-top: 5px; /* Espaço abaixo do nome do comando */
+      padding-left: 0; /* Remove padding extra do mobile */
+      order: 2; /* Move pra ficar logo abaixo do comando */
+      margin-left: calc(50px + 15px); /* Alinha com o início do nome do comando (symbol-width + symbol-margin) */
     }
   }
 
   @media (max-width: 500px) {
     h1 {
-      font-size: 2em;
+      font-size: 2.5em;
     }
     .command {
-      font-size: 0.9em;
+      font-size: 1.1em;
       min-width: 80px;
     }
     .description {
-      font-size: 0.9em;
+      font-size: 1em;
     }
     .usage {
-      font-size: 0.8em;
-      padding-left: 40px;
+      font-size: 0.9em;
+      margin-left: calc(40px + 10px); /* Ajusta para mobile menor */
+    }
+    .symbol {
+        font-size: 1.5em;
+        margin-right: 10px;
+    }
+    .command-item {
+        padding: 15px 10px;
     }
   }
 </style>
@@ -216,32 +228,32 @@
     <div class="command-item">
       <i class="fas fa-bug symbol"></i>
       <span class="command">bugreport</span>
-      <span class="description">Report a bug directly to the bot developers.</span>
       <span class="usage">/bugreport &lt;description&gt;</span>
+      <span class="description">Report a bug directly to the bot developers.</span>
     </div>
     <div class="command-item">
       <i class="fas fa-question-circle symbol"></i>
       <span class="command">help</span>
-      <span class="description">Shows a list of all commands available.</span>
       <span class="usage">/help</span>
+      <span class="description">Shows a list of all commands available.</span>
     </div>
     <div class="command-item">
       <i class="fas fa-globe symbol"></i>
       <span class="command">set_language</span>
-      <span class="description">Selects the server's language.</span>
       <span class="usage">/set_language &lt;lang&gt;</span>
+      <span class="description">Selects the server's language.</span>
     </div>
     <div class="command-item">
       <i class="fas fa-thumbs-up symbol"></i>
       <span class="command">upvote</span>
-      <span class="description">Shows you how to upvote the bot to help the project.</span>
       <span class="usage">/upvote</span>
+      <span class="description">Shows you how to upvote the bot to help the project.</span>
     </div>
     <div class="command-item">
       <i class="fas fa-search symbol"></i>
       <span class="command">wiki</span>
-      <span class="description">Searches the wiki and dictionary.</span>
       <span class="usage">/wiki &lt;query&gt;</span>
+      <span class="description">Searches the wiki and dictionary.</span>
     </div>
   </div>
 </div>
@@ -251,14 +263,13 @@
     const loadingOverlay = document.getElementById('loading-overlay');
     const container = document.querySelector('.container');
 
-    // Simula um carregamento de conteúdo
     setTimeout(() => {
-      loadingOverlay.style.opacity = '0'; // Começa o fade out
+      loadingOverlay.style.opacity = '0';
       setTimeout(() => {
-        loadingOverlay.style.display = 'none'; // Esconde após o fade out
-        container.classList.add('show'); // Adiciona classe para mostrar o container com animação
-      }, 700); // Duração da transição do overlay
-    }, 1500); // Tempo total da animação de loading (pode ajustar)
+        loadingOverlay.style.display = 'none';
+        container.classList.add('show');
+      }, 700);
+    }, 1500);
   });
 </script>
 
