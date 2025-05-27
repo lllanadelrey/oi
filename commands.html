@@ -1,6 +1,6 @@
 <html>
 <head>
-<title>>_ WikiBot Commands</title>
+<title>Commands - WikiBot</title>
 <style>
   body {
     font-family: 'Open Sans', sans-serif;
@@ -11,89 +11,189 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding-top: 50px;
+    min-height: 100vh;
+    overflow: hidden;
   }
-  .container {
-    width: 80%;
-    max-width: 960px;
-  }
-  .command-list {
-    background-color: #2f313e;
-    border-radius: 5px;
-    padding: 20px;
-    margin-top: 20px;
-  }
-  .command-item {
-    padding: 15px 0;
-    border-bottom: 1px solid #424558;
+
+  #loading-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #181926;
     display: flex;
+    justify-content: center;
     align-items: center;
+    z-index: 1000;
   }
-  .command-item:last-child {
-    border-bottom: none;
+
+  .loading-icon {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    border: 6px solid #7289da;
+    border-top-color: transparent;
+    animation: spin 1s linear infinite, bounce 0.5s alternate infinite;
   }
-  .command {
-    font-weight: bold;
-    color: #7289da;
-    margin-right: 15px;
-    width: 120px; /* Mantém a largura pra alinhar o comando */
+
+  @keyframes spin {
+    to { transform: rotate(360deg); }
   }
-  .description {
-    flex-grow: 1;
-    margin-right: 15px;
+
+  @keyframes bounce {
+    from { transform: translateY(0); }
+    to { transform: translateY(-10px); }
   }
-  .usage {
-    color: #99aab5; /* Cor cinza */
-    font-size: 0.9em; /* Letra menor */
-    font-style: italic; /* Pra manter o estilo "como usar" */
+
+  .container {
+    width: 90%;
+    max-width: 1200px;
+    padding: 40px;
+    margin-top: 60px;
   }
-  .symbol {
-    margin-right: 10px;
-    color: #7289da;
-    font-size: 1.2em;
-  }
+
   h1 {
     color: #fff;
     text-align: center;
-    margin-bottom: 30px;
+    margin-bottom: 40px;
+    font-size: 2.5em;
+  }
+
+  .command-list {
+    background-color: #2f313e;
+    border-radius: 8px;
+    padding: 30px;
+    margin-top: 30px;
+  }
+
+  .command-item {
+    padding: 20px 15px;
+    border-bottom: 1px solid #424558;
+    display: flex;
+    align-items: center;
+    transition: transform 0.2s ease-in-out;
+  }
+
+  .command-item:last-child {
+    border-bottom: none;
+  }
+
+  .command-item:hover {
+    transform: scale(1.05);
+  }
+
+  .command {
+    font-weight: bold;
+    color: #7289da;
+    margin-right: 20px;
+    width: 150px;
+    font-size: 1.2em;
+  }
+
+  .description {
+    flex-grow: 1;
+    margin-right: 20px;
+    font-size: 1.1em;
+  }
+
+  .usage {
+    color: #99aab5;
+    font-size: 0.9em;
+    font-style: italic;
+    white-space: nowrap;
+  }
+
+  .symbol {
+    margin-right: 15px;
+    color: #7289da;
+    font-size: 1.5em;
+  }
+
+  @media (max-width: 768px) {
+    .container {
+      width: 95%;
+      padding: 20px;
+      margin-top: 30px;
+    }
+    h1 {
+      font-size: 2em;
+      margin-bottom: 30px;
+    }
+    .command {
+      font-size: 1em;
+      width: 120px;
+    }
+    .description {
+      font-size: 0.95em;
+    }
+    .symbol {
+      font-size: 1.3em;
+      margin-right: 10px;
+    }
+    .usage {
+      font-size: 0.8em;
+    }
+    .command-item {
+      padding: 15px 10px;
+    }
   }
 </style>
 <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
 <body>
-  <div class="container">
-    <h1>WikiBot Commands</h1>
-    <div class="command-list">
-      <div class="command-item">
-        <i class="fas fa-star symbol"></i>
-        <span class="command">/help</span>
-        <span class="description">Shows a list of all commands available.</span>
-      </div>
-      <div class="command-item">
-        <i class="fas fa-search symbol"></i>
-        <span class="command">/wiki &lt;query&gt;</span>
-        <span class="description">Searches the wiki and dictionary.</span>
-        <span class="usage">&lt;query&gt;</span>
-      </div>
-      <div class="command-item">
-        <i class="fas fa-globe symbol"></i>
-        <span class="command">/set_language &lt;lang&gt;</span>
-        <span class="description">Selects the server's language.</span>
-        <span class="usage">&lt;lang&gt;</span>
-      </div>
-      <div class="command-item">
-        <i class="fas fa-thumbs-up symbol"></i>
-        <span class="command">/upvote</span>
-        <span class="description">Shows you how to upvote the bot to help the project.</span>
-      </div>
-      <div class="command-item">
-        <i class="fas fa-bug symbol"></i>
-        <span class="command">/bugreport &lt;description&gt;</span>
-        <span class="description">Report a bug directly to the bot developers.</span>
-        <span class="usage">&lt;description&gt;</span>
-      </div>
+
+<div id="loading-overlay">
+  <div class="loading-icon"></div>
+</div>
+
+<div class="container" style="display: none;">
+  <h1>WikiBot Commands</h1>
+  <div class="command-list">
+    <div class="command-item">
+      <i class="fas fa-bug symbol"></i>
+      <span class="command">bugreport</span>
+      <span class="description">Report a bug directly to the bot developers. <span class="usage">/bugreport &lt;description&gt;</span></span>
+    </div>
+    <div class="command-item">
+      <i class="fas fa-question-circle symbol"></i> <span class="command">help</span>
+      <span class="description">Shows a list of all commands available.</span>
+    </div>
+    <div class="command-item">
+      <i class="fas fa-globe symbol"></i>
+      <span class="command">set_language</span>
+      <span class="description">Selects the server's language. <span class="usage">/set_language &lt;lang&gt;</span></span>
+    </div>
+    <div class="command-item">
+      <i class="fas fa-thumbs-up symbol"></i>
+      <span class="command">upvote</span>
+      <span class="description">Shows you how to upvote the bot to help the project.</span>
+    </div>
+    <div class="command-item">
+      <i class="fas fa-search symbol"></i>
+      <span class="command">wiki</span>
+      <span class="description">Searches the wiki and dictionary. <span class="usage">/wiki &lt;query&gt;</span></span>
     </div>
   </div>
+</div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const loadingOverlay = document.getElementById('loading-overlay');
+    const container = document.querySelector('.container');
+
+    setTimeout(() => {
+      loadingOverlay.style.opacity = '0';
+      setTimeout(() => {
+        loadingOverlay.style.display = 'none';
+        container.style.display = 'flex';
+        container.style.flexDirection = 'column';
+        container.style.alignItems = 'center';
+      }, 500);
+    }, 1000);
+  });
+</script>
+
 </body>
 </html>
