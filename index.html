@@ -1,342 +1,186 @@
-<html>
+<!DOCTYPE html>
+<html lang="pt-br">
 <head>
-<title>Commands - WikiBot</title>
-<style>
-  body {
-    font-family: 'Open Sans', sans-serif;
-    background-color: #181926;
-    color: #fff;
-    margin: 0;
-    padding: 0;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    min-height: 100vh;
-    overflow-x: hidden;
-    box-sizing: border-box;
-  }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WikiBot</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        /* Importa a fonte Poppins do Google Fonts */
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap');
 
-  /* Loading Animation */
-  #loading-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: #181926;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 1000;
-    opacity: 1;
-    transition: opacity 0.7s ease-out;
-  }
+        body {
+            margin: 0;
+            font-family: 'Poppins', sans-serif;
+            background-color: #1a1a2e; /* Fundo mais escuro */
+            color: #e0e0e0; /* Texto claro */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            text-align: center;
+            overflow-x: hidden; /* Evita scroll horizontal */
+        }
 
-  .loading-icon {
-    width: 80px;
-    height: 80px;
-    border-radius: 50%;
-    border: 8px solid #7289da;
-    border-top-color: transparent;
-    animation: spin 1s cubic-bezier(0.68, -0.55, 0.27, 1.55) infinite,
-               bounce-y 0.8s alternate infinite ease-in-out;
-  }
+        .header-top {
+            width: 100%;
+            display: flex;
+            justify-content: flex-start; /* Alinha o WikiBot à esquerda */
+            align-items: center;
+            padding: 20px;
+            box-sizing: border-box;
+        }
 
-  @keyframes spin {
-    to { transform: rotate(360deg); }
-  }
+        .wikibot-logo {
+            display: flex;
+            align-items: center;
+            font-size: 1.8em;
+            font-weight: 700;
+            color: #fff;
+        }
 
-  @keyframes bounce-y {
-    0% { transform: translateY(0); }
-    50% { transform: translateY(-25px); }
-    100% { transform: translateY(0); }
-  }
+        .wikibot-logo i {
+            margin-right: 10px;
+            color: #7289da; /* Cor do Discord */
+        }
 
-  /* UI para PC */
-  .container {
-    width: 95%;
-    max-width: 1800px;
-    padding: 80px 100px;
-    margin-top: 100px;
-    opacity: 0;
-    transform: translateY(20px);
-    transition: opacity 0.8s ease-out, transform 0.8s ease-out;
-  }
+        .hero-section {
+            flex-grow: 1; /* Permite que a seção ocupe o espaço restante */
+            display: flex;
+            flex-direction: column;
+            justify-content: center; /* Centraliza verticalmente */
+            align-items: center;
+            padding: 20px;
+            max-width: 900px;
+            width: 90%;
+            box-sizing: border-box;
+        }
 
-  .container.show {
-    opacity: 1;
-    transform: translateY(0);
-  }
+        .hero-image-container {
+            margin-bottom: 30px; /* Espaço abaixo da imagem */
+            width: 100%;
+            max-width: 300px; /* Aumentei a largura máxima da imagem */
+        }
 
-  h1 {
-    color: #fff;
-    text-align: center;
-    margin-bottom: 80px;
-    font-size: 4.5em;
-    text-shadow: 0 0 15px rgba(114, 137, 218, 0.6);
-  }
+        .hero-image {
+            max-width: 100%;
+            height: auto;
+            border-radius: 15px; /* Bordas arredondadas */
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3); /* Sombra suave */
+        }
 
-  .command-list {
-    background-color: #2f313e;
-    border-radius: 15px;
-    padding: 50px 70px;
-    margin-top: 50px;
-    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.5);
-  }
+        .hero-title {
+            font-size: 3em;
+            font-weight: 700;
+            margin-bottom: 20px;
+            line-height: 1.2;
+            color: #fff;
+        }
 
-  .command-item {
-    padding: 30px 0;
-    border-bottom: 1px solid #424558;
-    display: flex;
-    align-items: center;
-    transition: transform 0.3s cubic-bezier(0.68, -0.55, 0.27, 1.55),
-                background-color 0.2s ease-in-out;
-    position: relative;
-  }
+        .hero-description {
+            font-size: 1.1em;
+            max-width: 700px;
+            margin-bottom: 40px;
+            line-height: 1.6;
+            color: #b0b0b0;
+        }
 
-  .command-item:last-child {
-    border-bottom: none;
-  }
+        .buttons-container {
+            display: flex;
+            flex-wrap: wrap; /* Quebra linha em telas menores */
+            justify-content: center;
+            gap: 20px; /* Espaço entre os botões */
+        }
 
-  .command-item:hover {
-    transform: scale(1.02);
-    background-color: #3b3e4f;
-  }
+        .btn {
+            display: inline-block;
+            padding: 15px 30px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            white-space: nowrap; /* Evita quebra de linha no texto do botão */
+        }
 
-  .symbol {
-    margin-right: 30px;
-    color: #7289da;
-    font-size: 2.5em;
-    min-width: 50px;
-    text-align: center;
-  }
+        .btn-primary {
+            background-color: #7289da; /* Cor do Discord */
+            color: #fff;
+            border: none;
+        }
 
-  .command-info-wrapper { /* Novo wrapper para agrupar command, usage e description */
-    display: flex;
-    flex-wrap: wrap; /* Permite que os itens quebrem a linha dentro do wrapper */
-    flex-grow: 1; /* Ocupa o espaço restante */
-    align-items: center; /* Alinha no centro verticalmente para PC */
-  }
+        .btn-primary:hover {
+            background-color: #677bc4;
+            transform: translateY(-2px);
+        }
 
-  .command-name-group { /* Agrupa só o nome do comando no PC */
-    display: flex;
-    align-items: center;
-    margin-right: 50px; /* Espaço para a descrição */
-    min-width: 250px; /* Garante largura mínima para o nome do comando */
-  }
+        .btn-secondary {
+            background-color: #36393f; /* Cor mais escura, tipo Discord */
+            color: #fff;
+            border: 2px solid #5a5a5a;
+        }
 
-  .command {
-    font-weight: bold;
-    color: #7289da;
-    font-size: 2.2em;
-    text-transform: lowercase;
-  }
+        .btn-secondary:hover {
+            background-color: #4a4d52;
+            transform: translateY(-2px);
+        }
 
-  .description {
-    flex-grow: 1; /* Ocupa o espaço restante no PC */
-    font-size: 1.8em;
-    line-height: 1.6;
-    margin-right: 50px; /* Espaço para a usage no PC */
-  }
+        /* Responsividade */
+        @media (max-width: 768px) {
+            .hero-title {
+                font-size: 2.2em;
+            }
 
-  /* PC: Usage ao lado da descrição */
-  .usage {
-    color: #99aab5;
-    font-size: 1.3em;
-    font-style: italic;
-    white-space: nowrap; /* Não quebra linha no PC */
-    position: absolute; /* Posição absoluta para ficar no canto */
-    right: 0;
-    top: 50%;
-    transform: translateY(-50%);
-    padding-right: 70px; /* Alinha com o padding da lista */
-  }
+            .hero-description {
+                font-size: 1em;
+            }
 
-  /* Media query para telas menores (mobile) */
-  @media (max-width: 900px) {
-    .container {
-      padding: 25px;
-      margin-top: 40px;
-    }
-    h1 {
-      font-size: 3em;
-      margin-bottom: 40px;
-    }
-    .command-list {
-      padding: 20px;
-    }
-    .command-item {
-      padding: 15px 10px;
-      align-items: flex-start; /* Alinha no topo no mobile */
-    }
-    .symbol {
-      font-size: 1.8em;
-      margin-right: 15px;
-      min-width: unset;
-      flex-shrink: 0;
-    }
+            .wikibot-logo {
+                font-size: 1.5em;
+            }
 
-    .command-info-wrapper {
-      flex-direction: column; /* Mobile: empilha os itens */
-      align-items: flex-start; /* Alinha tudo à esquerda */
-      flex-grow: 1;
-      width: calc(100% - (15px + 15px + 50px)); /* Largura para command-info-wrapper: total - (symbol-margin + symbol-width + command-item-padding-left) */
-      /* O cálculo acima pode variar, depende do tamanho real do symbol e padding.
-         Uma abordagem mais simples é deixar flex-grow 1 e alinhar padding-left nos filhos. */
-    }
+            .buttons-container {
+                flex-direction: column; /* Botões um abaixo do outro */
+                align-items: center;
+            }
 
-    .command-name-group { /* Mobile: nome do comando e usage ficam juntos */
-      flex-direction: column; /* Nome do comando e usage em coluna */
-      align-items: flex-start; /* Alinha à esquerda */
-      margin-right: 0; /* Remove margem */
-      min-width: unset;
-      flex-basis: 100%; /* Ocupa a largura total disponível */
-      order: 1; /* Garante que vem primeiro dentro do wrapper */
-    }
-    
-    .command {
-      font-size: 1.4em;
-      margin-right: 0;
-      margin-bottom: 2px; /* Espaço entre comando e usage */
-    }
+            .btn {
+                width: 80%; /* Botões ocupam mais largura */
+                max-width: 300px; /* Limita a largura máxima */
+            }
+        }
 
-    /* Mobile: Usage abaixo do comando */
-    .usage {
-      position: static; /* Volta a ser estático no mobile */
-      transform: none;
-      font-size: 1.1em;
-      text-align: left;
-      white-space: normal; /* Permite que a usage quebre a linha */
-      padding-right: 0;
-      margin-top: 0;
-      margin-left: 0;
-    }
+        @media (max-width: 480px) {
+            .hero-title {
+                font-size: 1.8em;
+            }
 
-    .description {
-      font-size: 1.2em;
-      margin-right: 0;
-      flex-basis: 100%; /* Ocupa a linha toda */
-      order: 2; /* Fica depois do command-name-group no mobile */
-      margin-top: 10px; /* Espaço entre usage e descrição */
-    }
-    
-    /* Ajustes de padding para alinhamento no mobile */
-    .command-item .command-name-group,
-    .command-item .description {
-        padding-left: calc(15px + 15px); /* Alinha com o symbol e o comando */
-    }
-    /* Remove padding para o usage, ele já está dentro do command-name-group */
-    .command-item .usage {
-        padding-left: 0;
-    }
-  }
+            .hero-description {
+                font-size: 0.9em;
+            }
 
-  @media (max-width: 500px) {
-    h1 {
-      font-size: 2.2em;
-    }
-    .command {
-      font-size: 1.2em;
-    }
-    .description {
-      font-size: 1.1em;
-    }
-    .usage {
-      font-size: 1em;
-    }
-    .symbol {
-        font-size: 1.6em;
-        margin-right: 10px;
-    }
-    .command-item {
-        padding: 12px 8px;
-    }
-    /* Ajuste para o padding-left da description e command-name-group em telas muito pequenas */
-    .command-item .command-name-group,
-    .command-item .description {
-        padding-left: calc(10px + 10px);
-    }
-  }
-</style>
-<link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+            .hero-image-container {
+                max-width: 250px; /* Mantive um limite para telas menores */
+            }
+        }
+    </style>
 </head>
 <body>
-
-<div id="loading-overlay">
-  <div class="loading-icon"></div>
-</div>
-
-<div class="container">
-  <h1>WikiBot Commands</h1>
-  <div class="command-list">
-    <div class="command-item">
-      <i class="fas fa-bug symbol"></i>
-      <div class="command-info-wrapper">
-        <div class="command-name-group">
-          <span class="command">bugreport</span>
-          <span class="usage">/bugreport &lt;description&gt;</span>
+    <div class="header-top">
+        <div class="wikibot-logo">
+            <i class="fas fa-book"></i> WikiBot
         </div>
-        <span class="description">Report a bug directly to the bot developers.</span>
-      </div>
     </div>
-    <div class="command-item">
-      <i class="fas fa-question-circle symbol"></i>
-      <div class="command-info-wrapper">
-        <div class="command-name-group">
-          <span class="command">help</span>
-          <span class="usage">/help</span>
-        </div>
-        <span class="description">Shows a list of all commands available.</span>
-      </div>
-    </div>
-    <div class="command-item">
-      <i class="fas fa-globe symbol"></i>
-      <div class="command-info-wrapper">
-        <div class="command-name-group">
-          <span class="command">set_language</span>
-          <span class="usage">/set_language &lt;lang&gt;</span>
-        </div>
-        <span class="description">Selects the server's language.</span>
-      </div>
-    </div>
-    <div class="command-item">
-      <i class="fas fa-thumbs-up symbol"></i>
-      <div class="command-info-wrapper">
-        <div class="command-name-group">
-          <span class="command">upvote</span>
-          <span class="usage">/upvote</span>
-        </div>
-        <span class="description">Shows you how to upvote the bot to help the project.</span>
-      </div>
-    </div>
-    <div class="command-item">
-      <i class="fas fa-search symbol"></i>
-      <div class="command-info-wrapper">
-        <div class="command-name-group">
-          <span class="command">wiki</span>
-          <span class="usage">/wiki &lt;query&gt;</span>
-        </div>
-        <span class="description">Searches the wiki and dictionary.</span>
-      </div>
-    </div>
-  </div>
-</div>
 
-<script>
-  document.addEventListener('DOMContentLoaded', function() {
-    const loadingOverlay = document.getElementById('loading-overlay');
-    const container = document.querySelector('.container');
-
-    setTimeout(() => {
-      loadingOverlay.style.opacity = '0';
-      setTimeout(() => {
-        loadingOverlay.style.display = 'none';
-        container.classList.add('show');
-      }, 700);
-    }, 1500);
-  });
-</script>
-
+    <div class="hero-section">
+        <div class="hero-image-container">
+            <img src="https://i.ibb.co/5WVgTy9P/IMG-0419.jpg" alt="IMG-0419" class="hero-image">
+        </div>
+        <h1 class="hero-title">Discord Information Made Easy</h1>
+        <p class="hero-description">WikiBot enables users to perform comprehensive Wikipedia searches using a single, intuitive command, delivering immediate results without the need to navigate external websites, supporting up to 5 languages including English, Russian, Portuguese, Spanish and French.</p>
+        <div class="buttons-container">
+            <a href="https://discord.com/oauth2/authorize?client_id=1376009936730980433&permissions=274878024704&integration_type=0&scope=bot&utm_source=discordbotlist.com&utm_medium=bot_page" class="btn btn-primary"> + Add To Server</a>
+            <a href="commands.html" class="btn btn-secondary"> >_ Commands</a>
+        </div>
+    </div>
 </body>
 </html>
