@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-br">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -93,6 +93,8 @@
             flex-wrap: wrap; /* Quebra linha em telas menores */
             justify-content: center;
             gap: 20px; /* Espaço entre os botões */
+            margin-bottom: 40px; /* Espaço para a seta */
+            position: relative; /* Para posicionar a seta */
         }
 
         .btn {
@@ -127,6 +129,32 @@
             transform: translateY(-2px);
         }
 
+        .scroll-indicator {
+            position: absolute;
+            bottom: -30px; /* Posição abaixo dos botões */
+            left: 50%;
+            transform: translateX(-50%);
+            color: #7289da;
+            font-size: 2em;
+            animation: bounce 1.5s infinite alternate;
+            transition: opacity 0.5s ease-out;
+            opacity: 1;
+            pointer-events: none; /* Garante que não interfira com cliques nos botões */
+        }
+
+        .scroll-indicator.hidden {
+            opacity: 0;
+        }
+
+        @keyframes bounce {
+            0% {
+                transform: translateY(0) translateX(-50%);
+            }
+            100% {
+                transform: translateY(10px) translateX(-50%);
+            }
+        }
+
         .features-section {
             margin-top: 60px;
             padding: 40px 20px;
@@ -158,6 +186,14 @@
             margin-bottom: 20px;
             text-align: left; /* Alinha o texto à esquerda para melhor leitura */
             box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
+            opacity: 0; /* Começa invisível */
+            transform: translateY(20px); /* Começa um pouco abaixo */
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+        }
+
+        .feature.visible {
+            opacity: 1;
+            transform: translateY(0);
         }
 
         .feature h3 {
@@ -177,26 +213,6 @@
         .feature p {
             line-height: 1.6;
             font-size: 1em;
-        }
-
-        .scroll-indicator {
-            position: sticky; /* Fixa o indicador na parte inferior */
-            bottom: 20px;
-            left: 50%;
-            transform: translateX(-50%);
-            color: #7289da;
-            font-size: 2em;
-            animation: bounce 1.5s infinite alternate;
-            cursor: pointer; /* Indica que é clicável (opcional) */
-        }
-
-        @keyframes bounce {
-            0% {
-                transform: translateY(0) translateX(-50%);
-            }
-            100% {
-                transform: translateY(10px) translateX(-50%);
-            }
         }
 
         /* Responsividade */
@@ -275,9 +291,12 @@
         <div class="buttons-container">
             <a href="https://discord.com/oauth2/authorize?client_id=1376009936730980433&permissions=274878024704&integration_type=0&scope=bot&utm_source=discordbotlist.com&utm_medium=bot_page" class="btn btn-primary"> + Add To Server</a>
             <a href="commands.html" class="btn btn-secondary"> >_ Commands</a>
+            <div class="scroll-indicator" id="scrollIndicator">
+                <i class="fas fa-chevron-down"></i>
+            </div>
         </div>
 
-        <div class="features-section">
+        <div class="features-section" id="featuresSection">
             <h2><i class="fas fa-star"></i> Key Features & Advantages</h2>
             <div class="feature">
                 <h3><i class="fas fa-search"></i> Effortless Information Access</h3>
@@ -297,8 +316,51 @@
             </div>
         </div>
     </div>
-    <div class="scroll-indicator">
-        <i class="fas fa-chevron-down"></i>
-    </div>
+
+    <script>
+        const scrollIndicator = document.getElementById('scrollIndicator');
+        const featuresSection = document.getElementById('featuresSection');
+        const features = document.querySelectorAll('.feature');
+
+        let hasScrolled = false;
+
+        // Função para mostrar os features com atraso
+        function showFeatures() {
+            features.forEach((feature, index) => {
+                setTimeout(() => {
+                    feature.classList.add('visible');
+                }, index * 200); // Atraso de 200ms para cada feature
+            });
+        }
+
+        window.addEventListener('scroll', () => {
+            // Esconde a seta quando o usuário desce um pouco
+            if (window.scrollY > 50 && !hasScrolled) {
+                scrollIndicator.classList.add('hidden');
+                hasScrolled = true;
+            } else if (window.scrollY <= 50 && hasScrolled) {
+                // Mostra a seta de volta se o usuário subir
+                scrollIndicator.classList.remove('hidden');
+                hasScrolled = false;
+            }
+
+            // Ativa a animação dos features quando eles entram na tela
+            const sectionTop = featuresSection.getBoundingClientRect().top;
+            const windowHeight = window.innerHeight;
+
+            if (sectionTop < windowHeight - 100) { // 100px antes de entrar totalmente
+                showFeatures();
+            }
+        });
+
+        // Chama a função showFeatures caso a seção já esteja visível ao carregar
+        window.addEventListener('load', () => {
+            const sectionTop = featuresSection.getBoundingClientRect().top;
+            const windowHeight = window.innerHeight;
+            if (sectionTop < windowHeight) {
+                showFeatures();
+            }
+        });
+    </script>
 </body>
 </html>
