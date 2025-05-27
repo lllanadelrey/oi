@@ -93,7 +93,7 @@
             flex-wrap: wrap; /* Quebra linha em telas menores */
             justify-content: center;
             gap: 20px; /* Espaço entre os botões */
-            margin-bottom: 40px; /* Espaço para a seta */
+            margin-bottom: 60px; /* Mais espaço para a seta ficar mais pra baixo */
             position: relative; /* Para posicionar a seta */
         }
 
@@ -131,7 +131,7 @@
 
         .scroll-indicator {
             position: absolute;
-            bottom: -30px; /* Posição abaixo dos botões */
+            bottom: -50px; /* Posição mais para baixo dos botões */
             left: 50%;
             transform: translateX(-50%);
             color: #7289da;
@@ -319,46 +319,47 @@
 
     <script>
         const scrollIndicator = document.getElementById('scrollIndicator');
-        const featuresSection = document.getElementById('featuresSection');
         const features = document.querySelectorAll('.feature');
 
-        let hasScrolled = false;
+        const observerOptions = {
+            root: null, // Observa o viewport
+            rootMargin: '0px',
+            threshold: 0.1 // 10% do elemento visível para disparar
+        };
 
-        // Função para mostrar os features com atraso
-        function showFeatures() {
-            features.forEach((feature, index) => {
-                setTimeout(() => {
-                    feature.classList.add('visible');
-                }, index * 200); // Atraso de 200ms para cada feature
+        const featureObserver = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    // Se o elemento estiver visível, adiciona a classe 'visible'
+                    // Adiciona um pequeno delay para cada feature para o efeito cascata
+                    const index = Array.from(features).indexOf(entry.target);
+                    setTimeout(() => {
+                        entry.target.classList.add('visible');
+                    }, index * 200);
+                    observer.unobserve(entry.target); // Para de observar depois de animar
+                }
             });
-        }
+        }, observerOptions);
 
+        features.forEach(feature => {
+            featureObserver.observe(feature); // Começa a observar cada feature
+        });
+
+        // Lógica para esconder a seta de rolagem
         window.addEventListener('scroll', () => {
             // Esconde a seta quando o usuário desce um pouco
-            if (window.scrollY > 50 && !hasScrolled) {
+            // Ajuste o valor '100' se quiser que ela suma mais cedo ou mais tarde
+            if (window.scrollY > 100) {
                 scrollIndicator.classList.add('hidden');
-                hasScrolled = true;
-            } else if (window.scrollY <= 50 && hasScrolled) {
-                // Mostra a seta de volta se o usuário subir
+            } else {
                 scrollIndicator.classList.remove('hidden');
-                hasScrolled = false;
-            }
-
-            // Ativa a animação dos features quando eles entram na tela
-            const sectionTop = featuresSection.getBoundingClientRect().top;
-            const windowHeight = window.innerHeight;
-
-            if (sectionTop < windowHeight - 100) { // 100px antes de entrar totalmente
-                showFeatures();
             }
         });
 
-        // Chama a função showFeatures caso a seção já esteja visível ao carregar
+        // Para esconder a seta se já estiver rolado ao carregar a página
         window.addEventListener('load', () => {
-            const sectionTop = featuresSection.getBoundingClientRect().top;
-            const windowHeight = window.innerHeight;
-            if (sectionTop < windowHeight) {
-                showFeatures();
+            if (window.scrollY > 100) {
+                scrollIndicator.classList.add('hidden');
             }
         });
     </script>
