@@ -52,7 +52,7 @@
     100% { transform: translateY(0); }
   }
 
-  /* UI para PC - Aumentada e Esticada */
+  /* UI para PC */
   .container {
     width: 95%;
     max-width: 1800px;
@@ -111,13 +111,20 @@
     text-align: center;
   }
 
+  .command-group { /* Novo container para comando e usage no mobile */
+    display: flex;
+    flex-direction: row; /* Padrão: linha no PC */
+    align-items: center;
+    margin-right: 50px; /* Mantém espaço no PC */
+    min-width: 250px; /* Mantém largura para o comando */
+  }
+
   .command {
     font-weight: bold;
     color: #7289da;
-    margin-right: 50px;
-    min-width: 250px;
     font-size: 2.2em;
     text-transform: lowercase;
+    margin-right: 15px; /* Espaço entre comando e usage no PC */
   }
 
   .description {
@@ -133,7 +140,7 @@
     font-size: 1.3em;
     font-style: italic;
     white-space: nowrap;
-    position: absolute;
+    position: absolute; /* Posição absoluta para ficar no canto */
     right: 0;
     top: 50%;
     transform: translateY(-50%);
@@ -155,7 +162,7 @@
       padding: 20px;
     }
     .command-item {
-      flex-wrap: wrap; /* Permite que os itens quebrem a linha */
+      flex-wrap: wrap;
       padding: 15px 10px;
       justify-content: flex-start;
       align-items: flex-start;
@@ -166,11 +173,19 @@
       min-width: unset;
       width: auto;
     }
+
+    .command-group {
+      flex-direction: column; /* Coloca comando e usage em coluna no mobile */
+      align-items: flex-start; /* Alinha à esquerda */
+      margin-right: 0; /* Remove margem extra */
+      min-width: unset; /* Remove largura fixa */
+      flex-basis: auto; /* Deixa o grupo se adaptar */
+    }
+    
     .command {
       font-size: 1.4em;
-      min-width: unset;
-      margin-right: 0; /* Remove margem direita do comando no mobile */
-      flex-basis: auto; /* Deixa o comando se adaptar ao conteúdo */
+      margin-right: 0; /* Remove margem do comando para a usage */
+      margin-bottom: 2px; /* Espaço entre comando e usage */
     }
 
     /* Mobile: Usage abaixo do comando */
@@ -178,20 +193,20 @@
       position: static; /* Volta a ser estático no mobile */
       transform: none;
       font-size: 1.1em;
-      flex-basis: 100%; /* Ocupa a linha toda */
       text-align: left;
-      margin-top: 2px; /* Espaço abaixo do nome do comando */
-      margin-left: calc(15px + 15px); /* Alinha com o início do comando (symbol-margin-right + command-left-indent) */
-      padding-right: 0;
-      order: 2; /* Fica logo abaixo do comando */
+      white-space: normal; /* Permite que a usage quebre a linha */
+      padding-right: 0; /* Remove padding */
+      margin-top: 0; /* Ajusta a margem */
+      margin-left: 0; /* Remove margem extra do usage */
     }
+
     .description {
       font-size: 1.2em;
       margin-right: 0;
-      flex-basis: 100%;
-      order: 3;
+      flex-basis: 100%; /* Ocupa a linha toda */
+      order: 3; /* Vai para a próxima linha */
       margin-top: 10px;
-      padding-left: calc(15px + 15px); /* Alinha com a usage */
+      padding-left: calc(15px + 15px); /* Alinha com o symbol + command/usage */
     }
   }
 
@@ -207,7 +222,6 @@
     }
     .usage {
       font-size: 1em;
-      margin-left: calc(10px + 10px); /* Ajusta margem pra telas menores */
     }
     .symbol {
         font-size: 1.6em;
@@ -215,6 +229,10 @@
     }
     .command-item {
         padding: 12px 8px;
+    }
+    /* Ajuste para o padding-left da description e usage em telas muito pequenas */
+    .description, .usage {
+        padding-left: calc(10px + 10px);
     }
   }
 </style>
@@ -232,32 +250,42 @@
   <div class="command-list">
     <div class="command-item">
       <i class="fas fa-bug symbol"></i>
-      <span class="command">bugreport</span>
-      <span class="usage">/bugreport &lt;description&gt;</span>
+      <div class="command-group">
+        <span class="command">bugreport</span>
+        <span class="usage">/bugreport &lt;description&gt;</span>
+      </div>
       <span class="description">Report a bug directly to the bot developers.</span>
     </div>
     <div class="command-item">
       <i class="fas fa-question-circle symbol"></i>
-      <span class="command">help</span>
-      <span class="usage">/help</span>
+      <div class="command-group">
+        <span class="command">help</span>
+        <span class="usage">/help</span>
+      </div>
       <span class="description">Shows a list of all commands available.</span>
     </div>
     <div class="command-item">
       <i class="fas fa-globe symbol"></i>
-      <span class="command">set_language</span>
-      <span class="usage">/set_language &lt;lang&gt;</span>
+      <div class="command-group">
+        <span class="command">set_language</span>
+        <span class="usage">/set_language &lt;lang&gt;</span>
+      </div>
       <span class="description">Selects the server's language.</span>
     </div>
     <div class="command-item">
       <i class="fas fa-thumbs-up symbol"></i>
-      <span class="command">upvote</span>
-      <span class="usage">/upvote</span>
+      <div class="command-group">
+        <span class="command">upvote</span>
+        <span class="usage">/upvote</span>
+      </div>
       <span class="description">Shows you how to upvote the bot to help the project.</span>
     </div>
     <div class="command-item">
       <i class="fas fa-search symbol"></i>
-      <span class="command">wiki</span>
-      <span class="usage">/wiki &lt;query&gt;</span>
+      <div class="command-group">
+        <span class="command">wiki</span>
+        <span class="usage">/wiki &lt;query&gt;</span>
+      </div>
       <span class="description">Searches the wiki and dictionary.</span>
     </div>
   </div>
